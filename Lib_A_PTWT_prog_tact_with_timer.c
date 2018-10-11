@@ -55,7 +55,14 @@ void
 PTWT_ProgTactStartLoop(
 	ptwt_prog_tact_s *pProgTact_s)
 {
-	/* сброс флага */
+	/* Ожидание пока в прерывании не будет установлен флаг начала нового
+	 * программного такта */
+	while (pProgTact_s->enable_flag == 0u)
+	{
+
+	}
+	
+	/* Сброс флага */
 	pProgTact_s->enable_flag = 0u;
 }
 
@@ -79,13 +86,6 @@ PTWT_ProgTactEndLoop(
 
 	/* Установка флага окончания программного такта */
 	pProgTact_s->end_flag++;
-
-	/* Ожидание пока в прерывании не будет установлен флаг начала нового
-	 * программного такта */
-	while (pProgTact_s->enable_flag == 0u)
-	{
-
-	}
 }
 
 /**
