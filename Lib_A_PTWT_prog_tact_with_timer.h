@@ -32,6 +32,12 @@
 /*#### |Begin| --> Секция - "Определение типов" ##############################*/
 typedef enum
 {
+	PTWT_ERROR = 0u,
+	PTWT_SUCCESS,
+} ptwt_fnc_status_e;
+
+typedef enum
+{
 	PTWT_OK = 0u,
 	PTWT_OVERRUN_DETECT,
 } ptwt_status_e;
@@ -64,6 +70,8 @@ typedef struct
 
 	/* Период времени программного такта в тиках аппаратного счетчика */
 	uint16_t progTactTime;
+
+	ptwt_fnc_status_e initStatus_e;
 } ptwt_prog_tact_s;
 
 typedef struct
@@ -87,10 +95,14 @@ typedef struct
 
 
 /*#### |Begin| --> Секция - "Прототипы глобальных функций" ###################*/
-extern void
-PTWT_Init_ProgTactStruct(
+extern ptwt_fnc_status_e
+PTWT_Init_ProgTact(
 	ptwt_prog_tact_s 				*pProgTact_s,
-	ptwt_prog_tact_init_struct_s 	*pInitStruct);
+	ptwt_prog_tact_init_struct_s 	*pProgTactInit_s);
+
+extern void
+PTWT_ProgTact_StructInit(
+	ptwt_prog_tact_init_struct_s    *pInit_s);
 
 extern void
 PTWT_ProgTactStartLoop(

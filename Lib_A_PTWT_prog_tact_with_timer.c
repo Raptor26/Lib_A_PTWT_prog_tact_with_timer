@@ -37,18 +37,33 @@
  * 								структуры pProgTact_s
  * @return None
  */
-void
-PTWT_Init_ProgTactStruct(
+ptwt_fnc_status_e
+PTWT_Init_ProgTact(
 	ptwt_prog_tact_s 				*pProgTact_s,
-	ptwt_prog_tact_init_struct_s 	*pInitStruct)
+	ptwt_prog_tact_init_struct_s 	*pProgTactInit_s)
 {
-	pProgTact_s->pHardCnt = pInitStruct->pHardCnt;
+	pProgTact_s->initStatus_e = PTWT_ERROR;
+	if ((pProgTactInit_s->pHardCnt != NULL)
+			&& (pProgTactInit_s->progTactTime != 0u))
+	{
+		pProgTact_s->pHardCnt 		= pProgTactInit_s->pHardCnt;
 
-	pProgTact_s->enable_flag 	= 1u;
-	pProgTact_s->end_flag 		= 0u;
-	pProgTact_s->overrun_cnt 	= 0u;
-	pProgTact_s->progTactTime 	= pInitStruct->progTactTime;
-	pProgTact_s->restTime 		= 0u;
+		pProgTact_s->enable_flag 	= 1u;
+		pProgTact_s->end_flag 		= 0u;
+		pProgTact_s->overrun_cnt 	= 0u;
+		pProgTact_s->progTactTime 	= pProgTactInit_s->progTactTime;
+		pProgTact_s->restTime 		= 0u;
+		pProgTact_s->initStatus_e	= PTWT_SUCCESS;
+	}
+	return (pProgTact_s->initStatus_e);
+}
+
+void
+PTWT_ProgTact_StructInit(
+	ptwt_prog_tact_init_struct_s *pInit_s)
+{
+	pInit_s->pHardCnt		= 0u;
+	pInit_s->progTactTime	= 0u;
 }
 
 void
@@ -61,7 +76,7 @@ PTWT_ProgTactStartLoop(
 	{
 
 	}
-	
+
 	/* Сброс флага */
 	pProgTact_s->enable_flag = 0u;
 }
